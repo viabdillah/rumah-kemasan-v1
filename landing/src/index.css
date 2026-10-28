@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  --langit: #eaf1fb; --tinta: #26334d;
+  --biru: #4aa8e8; --toska: #4fc3c0; --hijau: #8fd16a; --jingga: #f5935a; --matahari: #ffd76a;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--langit) url('/images/bg-pattern.svg');
+  color: var(--tinta);
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+}
+h1, h2, h3, .judul { font-family: 'Fredoka', 'Nunito', system-ui, sans-serif; }
+
+/* Claymorphism: warna lembut, sudut besar, bayangan luar + cahaya dalam */
+.clay {
+  background: var(--c, #fff);
+  border-radius: var(--r, 2rem);
+  box-shadow:
+    10px 14px 28px rgb(38 51 77 / .16),
+    inset -8px -8px 16px rgb(38 51 77 / .10),
+    inset 8px 8px 16px rgb(255 255 255 / .75);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.clay-hover:hover { transform: translateY(-5px); }
+.clay-hover:active, .btn:active {
+  transform: translateY(2px) scale(.98);
+  box-shadow: 4px 6px 12px rgb(38 51 77 / .16), inset -4px -4px 8px rgb(38 51 77 / .10), inset 4px 4px 8px rgb(255 255 255 / .75);
+}
+.btn { --r: 999px; display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1.5rem; font-weight: 800; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--tinta); outline-offset: 3px; }
+
+.screen { position: relative; min-height: 100svh; overflow: hidden; display: flex; align-items: center; padding: 6.5rem 1.25rem 4rem; }
+/* Parallax: --py diatur per section lewat JS, --speed per lapisan */
+.parallax { will-change: transform; transform: translate3d(0, calc(var(--py, 0) * var(--speed, .1) * -1px), 0); }
+.float-y { animation: float 5s ease-in-out infinite; }
+.pop { animation: pop .3s ease both; }
+@keyframes float { 50% { transform: translateY(-14px); } }
+@keyframes pop { from { opacity: 0; transform: scale(.96); } }
+@media (prefers-reduced-motion: reduce) {
+  .parallax { transform: none; }
+  .float-y, .pop { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Kolom isian bergaya clay (cekung) */
+@layer components {
+.input {
+  width: 100%; padding: .85rem 1.1rem; border: 0; border-radius: 1.25rem; background: #fff; font-weight: 600;
+  box-shadow: inset 4px 4px 10px rgb(38 51 77 / .14), inset -4px -4px 10px rgb(255 255 255 / .9);
+}
+.input::placeholder { opacity: .5; }
+}
