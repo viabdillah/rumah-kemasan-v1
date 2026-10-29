@@ -53,5 +53,5 @@ export const visiMisi = {
 // Format: 628xxxxxxxxxx (tanpa +, spasi, atau tanda hubung). Isi dengan nomor resmi sebelum situs diumumkan.
 // Jika dikosongkan, WhatsApp meminta pengguna memilih kontak sendiri (aman untuk uji coba).
 export const kontak = {
-  whatsapp: '',
+  whatsapp: '6285183043381',
 }
