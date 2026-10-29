@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useProfil } from '../context/ProfilContext'
+import { TombolWa } from './TombolWa'
+import { profilLengkap } from '../lib/wa'
 import { MessagesSquare, GraduationCap, HandHelping, Printer, ClipboardList, Palette, Factory, LogIn, UserPlus, Building2, BadgeCheck, MapPin, Users, TrendingUp, Globe, Info, Package } from 'lucide-react'
 import { identitas, tentang, fungsi, visiMisi, layanan, alur, produksi } from '../data/content'
 
@@ -36,10 +39,19 @@ function Screen({ id, layers, children }) {
 }
 
 // Tombol ajakan: berubah menjadi "Buka profil UMKM" setelah pengguna masuk.
-function AjakDaftar({ denganMasuk = false }) {
+function AjakDaftar({ denganMasuk = false, denganWa = false }) {
   const { user, siap } = useAuth()
+  const { data, status } = useProfil()
   if (!siap) return null
-  if (user) return <Link to="/dashboard" className="clay btn" style={{ '--c': 'var(--biru)' }}><Building2 className="size-5" />Buka profil UMKM</Link>
+  if (user) {
+    const lengkap = status === 'siap' && profilLengkap(data)
+    return (
+      <>
+        {denganWa && <TombolWa />}
+        <Link to="/dashboard" className="clay btn" style={{ '--c': lengkap ? '#fff' : 'var(--biru)' }}><Building2 className="size-5" />{lengkap ? 'Buka profil UMKM' : 'Lengkapi data UMKM'}</Link>
+      </>
+    )
+  }
   return (
     <>
       <a href="/daftar" className="clay btn" style={{ '--c': 'var(--biru)' }}><UserPlus className="size-5" />Daftar UMKM</a>
@@ -159,16 +171,18 @@ export function Produksi() {
 }
 
 export function Konsultasi() {
+  const { data, status } = useProfil()
+  const lengkap = status === 'siap' && profilLengkap(data)
   return (
     <Screen id="konsultasi" layers={<>
       <Blob warna="var(--toska)" ukuran={260} speed={0.3} posisi="-left-16 top-10" />
       <Blob warna="var(--matahari)" ukuran={220} speed={0.45} posisi="-right-10 bottom-24" />
     </>}>
       <div className="clay mx-auto max-w-3xl p-8 text-center sm:p-12" style={{ '--c': 'var(--matahari)', '--r': '3rem' }}>
-        <h2 className="text-4xl font-bold">Mulai dari konsultasi</h2>
-        <p className="mx-auto mt-4 max-w-xl text-lg">Daftarkan usaha Anda, lalu ceritakan produk dan kebutuhan kemasannya. Tim kami membantu dari desain sampai produksi.</p>
+        <h2 className="text-4xl font-bold">{lengkap ? 'Siap berkonsultasi?' : 'Mulai dari konsultasi'}</h2>
+        <p className="mx-auto mt-4 max-w-xl text-lg">{lengkap ? 'Data usaha Anda sudah tersimpan. Kirim pesan lewat WhatsApp, dan tim kami membantu dari desain sampai produksi.' : 'Daftarkan usaha Anda, lalu ceritakan produk dan kebutuhan kemasannya. Tim kami membantu dari desain sampai produksi.'}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <AjakDaftar denganMasuk />
+          <AjakDaftar denganMasuk denganWa />
         </div>
       </div>
       <p className="mt-10 text-center text-sm">Rumah Kemasan SINTESA Lebak, Pusat Layanan Kemasan Kabupaten Lebak</p>

@@ -48,3 +48,10 @@ export const visiMisi = {
     { ikon: 'GraduationCap', warna: 'var(--hijau)', teks: 'Menjadi pusat layanan konsultasi, pelatihan, pendampingan, dan produksi kemasan untuk meningkatkan kualitas desain dan kemasan produk UMKM.' },
   ],
 }
+
+// Nomor WhatsApp Rumah Kemasan yang menerima pesan konsultasi.
+// Format: 628xxxxxxxxxx (tanpa +, spasi, atau tanda hubung). Isi dengan nomor resmi sebelum situs diumumkan.
+// Jika dikosongkan, WhatsApp meminta pengguna memilih kontak sendiri (aman untuk uji coba).
+export const kontak = {
+  whatsapp: '',
+}

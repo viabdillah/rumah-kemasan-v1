@@ -3,8 +3,10 @@ import { Link, Navigate } from 'react-router-dom'
 import { sendEmailVerification } from 'firebase/auth'
 import { LogOut, Pencil, Plus, X } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import { useProfil } from '../context/ProfilContext'
+import { TombolWaMengapung } from '../components/TombolWa'
 import { kecamatanLebak, luarLebak, jenisProduk, layananList, legalitasUsaha, legalitasProduk, platformSosmed, maksProduk } from '../data/umkm'
-import { kosong, produkKosong, validasi, muat, simpan } from '../lib/umkm'
+import { kosong, produkKosong, validasi, simpan } from '../lib/umkm'
 
 const warnaError = { color: '#b4410f' }
 
@@ -50,29 +52,24 @@ function Ringkasan({ d, onUbah }) {
 
 export default function Dashboard() {
   const { user, siap, keluar } = useAuth()
-  const [data, setData] = useState(null)
-  const [memuat, setMemuat] = useState(true)
+  const { data, status, galat, setData } = useProfil()
+  const galatMuat = status === 'galat' ? galat : ''
   const [edit, setEdit] = useState(false)
   const [f, setF] = useState(kosong())
   const [err, setErr] = useState({})
   const [sibuk, setSibuk] = useState(false)
   const [info, setInfo] = useState('')
-  const [galatMuat, setGalatMuat] = useState('')
   const [galatSimpan, setGalatSimpan] = useState('')
 
+  // Isi formulir setelah profil selesai dimuat oleh ProfilContext.
   useEffect(() => {
-    if (!user) return
-    muat()
-      .then((d) => {
-        setData(d)
-        setF(d ?? kosong(user.displayName || ''))
-        setEdit(!d)
-      })
-      .catch((e) => setGalatMuat(e.message))
-      .finally(() => setMemuat(false))
-  }, [user])
+    if (status !== 'siap') return
+    setF(data ?? kosong(user?.displayName || ''))
+    setEdit(!data)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status])
 
-  if (!siap || (user && memuat)) return <p className="p-8 font-bold">Memuat...</p>
+  if (!siap || (user && (status === 'memuat' || status === 'diam'))) return <p className="p-8 font-bold">Memuat...</p>
   if (!user) return <Navigate to="/masuk" replace />
   // Jika data gagal dimuat, jangan tampilkan formulir kosong: pengguna bisa tanpa sengaja menimpa data yang sudah ada.
   if (galatMuat) {
@@ -270,6 +267,7 @@ export default function Dashboard() {
           <button onClick={keluar} className="clay btn" style={{ '--c': '#fff' }}><LogOut className="size-5" />Keluar</button>
         </div>
       </div>
+      <TombolWaMengapung />
     </main>
   )
 }

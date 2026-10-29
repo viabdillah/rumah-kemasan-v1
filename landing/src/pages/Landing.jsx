@@ -1,4 +1,5 @@
 import Navbar from '../components/Navbar'
+import { TombolWaMengapung } from '../components/TombolWa'
 import { Hero, Tentang, VisiMisi, Layanan, Alur, Produksi, Konsultasi } from '../components/Sections'
 
 export default function Landing() {
@@ -14,6 +15,7 @@ export default function Landing() {
         <Produksi />
         <Konsultasi />
       </main>
+      <TombolWaMengapung />
     </>
   )
 }
