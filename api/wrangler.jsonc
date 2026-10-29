@@ -1,0 +1,9 @@
+{
+  "name": "rumah-kemasan-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "vars": {
+    "FIREBASE_PROJECT_ID": "simkemas",
+    "ALLOWED_ORIGINS": "http://localhost:5173,https://rumah-kemasan.diviabdillah94.workers.dev"
+  }
+}

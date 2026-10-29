@@ -1,6 +1,8 @@
-// Data UMKM. SEMENTARA disimpan di localStorage browser ini saja (untuk uji tampilan).
-// Nanti ganti isi muat() dan simpan() menjadi panggilan ke webhook n8n -> Google Spreadsheet.
-// Tampilan (Dashboard.jsx) tidak perlu diubah karena kedua fungsi sudah async.
+// Data UMKM. Disimpan lewat API (Cloudflare Worker) ke Google Spreadsheet.
+// Setiap permintaan membawa token login Firebase; server menentukan pemilik data dari token itu.
+import { auth } from './firebase'
+
+const API = import.meta.env.VITE_API_URL
 
 export const produkKosong = () => ({
   nama: '', jenis: '',
@@ -68,19 +70,32 @@ export function validasi(d) {
   return e
 }
 
-const kunci = (uid) => `umkm:${uid}`
-
-export async function muat(uid) {
-  try { return normalisasi(JSON.parse(localStorage.getItem(kunci(uid)))) } catch { return null }
+async function panggil(metode, body) {
+  if (!API) throw new Error('VITE_API_URL belum diisi di landing/.env.')
+  const token = await auth.currentUser?.getIdToken()
+  if (!token) throw new Error('Sesi login tidak ditemukan. Silakan masuk lagi.')
+  let r
+  try {
+    r = await fetch(`${API}/umkm`, {
+      method: metode,
+      headers: { Authorization: `Bearer ${token}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },
+      body: body ? JSON.stringify(body) : undefined,
+    })
+  } catch {
+    throw new Error('Tidak dapat terhubung ke server. Periksa koneksi internet.')
+  }
+  const j = await r.json().catch(() => ({}))
+  if (!r.ok) throw new Error(j.galat || `Server menjawab dengan kode ${r.status}.`)
+  return j.data
 }
 
-export async function simpan(uid, d) {
-  const data = {
+export const muat = async () => normalisasi(await panggil('GET'))
+
+export async function simpan(d) {
+  const kirim = {
     ...d,
     whatsapp: normalisasiWa(d.whatsapp),
     sosmed: Object.fromEntries(Object.entries(d.sosmed).filter(([, v]) => v.trim())), // buang platform yang dikosongkan
-    diperbarui: new Date().toISOString(),
   }
-  localStorage.setItem(kunci(uid), JSON.stringify(data))
-  return data
+  return normalisasi(await panggil('PUT', kirim))
 }

@@ -57,19 +57,38 @@ export default function Dashboard() {
   const [err, setErr] = useState({})
   const [sibuk, setSibuk] = useState(false)
   const [info, setInfo] = useState('')
+  const [galatMuat, setGalatMuat] = useState('')
+  const [galatSimpan, setGalatSimpan] = useState('')
 
   useEffect(() => {
     if (!user) return
-    muat(user.uid).then((d) => {
-      setData(d)
-      setF(d ?? kosong(user.displayName || ''))
-      setEdit(!d)
-      setMemuat(false)
-    })
+    muat()
+      .then((d) => {
+        setData(d)
+        setF(d ?? kosong(user.displayName || ''))
+        setEdit(!d)
+      })
+      .catch((e) => setGalatMuat(e.message))
+      .finally(() => setMemuat(false))
   }, [user])
 
   if (!siap || (user && memuat)) return <p className="p-8 font-bold">Memuat...</p>
   if (!user) return <Navigate to="/masuk" replace />
+  // Jika data gagal dimuat, jangan tampilkan formulir kosong: pengguna bisa tanpa sengaja menimpa data yang sudah ada.
+  if (galatMuat) {
+    return (
+      <main className="mx-auto max-w-2xl px-4 py-10">
+        <div className="clay p-8" style={{ '--c': '#fff', '--r': '2.5rem' }}>
+          <h1 className="text-2xl font-bold">Data belum bisa dimuat</h1>
+          <p className="mt-2" role="alert">{galatMuat}</p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button onClick={() => window.location.reload()} className="clay btn" style={{ '--c': 'var(--biru)' }}>Coba lagi</button>
+            <button onClick={keluar} className="clay btn" style={{ '--c': '#fff' }}><LogOut className="size-5" />Keluar</button>
+          </div>
+        </div>
+      </main>
+    )
+  }
 
   const set = (k) => (e) => setF({ ...f, [k]: e.target.value })
   const ubahBersarang = (grup, k, nilai) => setF({ ...f, [grup]: { ...f[grup], [k]: nilai } })
@@ -88,8 +107,15 @@ export default function Dashboard() {
     setErr(er)
     if (Object.keys(er).length) return
     setSibuk(true)
-    const tersimpan = await simpan(user.uid, f)
-    setData(tersimpan); setF(tersimpan); setEdit(false); setSibuk(false)
+    setGalatSimpan('')
+    try {
+      const tersimpan = await simpan(f)
+      setData(tersimpan); setF(tersimpan); setEdit(false)
+    } catch (e) {
+      setGalatSimpan(e.message)
+    } finally {
+      setSibuk(false)
+    }
   }
 
   const kirimUlang = async () => {
@@ -116,8 +142,6 @@ export default function Dashboard() {
             {info && <p className="mt-2 text-sm">{info}</p>}
           </div>
         )}
-
-        <p className="mt-4 text-sm opacity-70">Mode uji: data tersimpan di browser ini saja sampai penyimpanan ke Spreadsheet dipasang.</p>
 
         {!edit && data ? <Ringkasan d={data} onUbah={() => { setF(data); setErr({}); setEdit(true) }} /> : (
           <form onSubmit={kirim} className="mt-5 grid gap-5" noValidate>
@@ -231,6 +255,8 @@ export default function Dashboard() {
             </div>
 
             {Object.keys(err).length > 0 && <p role="alert" className="clay px-4 py-3 text-sm font-bold" style={{ '--c': 'var(--jingga)', '--r': '1.25rem' }}>Ada isian yang perlu diperbaiki. Periksa tulisan di bawah kolom yang bermasalah.</p>}
+
+            {galatSimpan && <p role="alert" className="clay px-4 py-3 text-sm font-bold" style={{ '--c': 'var(--jingga)', '--r': '1.25rem' }}>Gagal menyimpan: {galatSimpan}</p>}
 
             <div className="flex flex-wrap gap-3">
               <button type="submit" disabled={sibuk} className="clay btn disabled:opacity-60" style={{ '--c': 'var(--biru)' }}>{sibuk ? 'Menyimpan...' : 'Simpan data'}</button>
