@@ -23,13 +23,3 @@ export function TombolWaMengapung() {
     </a>
   )
 }
-
-export function TombolWa() {
-  const href = useTautanWa()
-  if (!href) return null
-  return (
-    <a href={href} {...buka} className="nb btn nb-hover" style={{ '--c': 'var(--hijau)' }}>
-      <MessageCircle className="size-5" />Konsultasi via WhatsApp
-    </a>
-  )
-}
