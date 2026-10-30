@@ -24,7 +24,7 @@ export const produksi = [
 ]
 
 export const tentang = {
-  judul: 'Apa itu Rumah Kemasan?',
+  judul: 'Kenalan dulu: apa itu Rumah Kemasan?',
   isi: 'Rumah Kemasan, atau Pusat Layanan Kemasan, adalah fasilitas dari PLUT-KUMKM di bawah Kementerian Koperasi dan UKM. Di sini pelaku UMKM mendapat pelatihan, pendampingan, dan layanan kemasan produk, mulai dari desain sampai produksi.',
   fakta: [
     { ikon: 'Building2', warna: 'var(--biru)', judul: 'Fasilitas PLUT-KUMKM', isi: 'PLUT-KUMKM adalah lembaga jasa non-finansial terpadu untuk koperasi dan UMKM, di bawah Kementerian Koperasi dan UKM.' },
@@ -55,3 +55,12 @@ export const visiMisi = {
 export const kontak = {
   whatsapp: '6285183043381',
 }
+
+// Logo mitra di footer. Salin satu baris untuk menambah, ubah singkatan/nama/warna sesuai kebutuhan.
+// Kalau sudah punya logo asli: simpan di public/images/ lalu isi gambar: '/images/nama-file.png'.
+export const mitra = [
+  { nama: 'Kementerian Koperasi dan UKM', singkatan: 'KUKM', warna: 'var(--biru)', gambar: '' },
+  { nama: 'PLUT-KUMKM', singkatan: 'PLUT', warna: 'var(--hijau)', gambar: '' },
+  { nama: 'Dinas Koperasi dan UKM Kabupaten Lebak', singkatan: 'DINKOP', warna: 'var(--jingga)', gambar: '' },
+  { nama: 'Rumah Kemasan SINTESA Lebak', singkatan: 'RKS', warna: 'var(--matahari)', gambar: '' },
+]

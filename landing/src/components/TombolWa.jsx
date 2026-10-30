@@ -16,7 +16,7 @@ export function TombolWaMengapung() {
   const href = useTautanWa()
   if (!href) return null
   return (
-    <a href={href} {...buka} aria-label="Konsultasi lewat WhatsApp" className="clay btn clay-hover fixed right-4 z-40"
+    <a href={href} {...buka} aria-label="Konsultasi lewat WhatsApp" className="nb btn nb-hover fixed right-4 z-40"
       style={{ '--c': 'var(--hijau)', bottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))' }}>
       <MessageCircle className="size-6" />
       <span className="hidden sm:inline">Konsultasi via WhatsApp</span>
@@ -28,7 +28,7 @@ export function TombolWa() {
   const href = useTautanWa()
   if (!href) return null
   return (
-    <a href={href} {...buka} className="clay btn clay-hover" style={{ '--c': 'var(--hijau)' }}>
+    <a href={href} {...buka} className="nb btn nb-hover" style={{ '--c': 'var(--hijau)' }}>
       <MessageCircle className="size-5" />Konsultasi via WhatsApp
     </a>
   )

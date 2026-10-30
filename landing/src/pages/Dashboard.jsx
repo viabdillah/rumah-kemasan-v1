@@ -15,7 +15,7 @@ function Isian({ label, error, bantuan, children }) {
     <label className="grid gap-1.5">
       <span className="font-extrabold">{label}</span>
       {children}
-      {bantuan && <span className="text-sm opacity-70">{bantuan}</span>}
+      {bantuan && <span className="text-sm opacity-90">{bantuan}</span>}
       {error && <span role="alert" className="text-sm font-bold" style={warnaError}>{error}</span>}
     </label>
   )
@@ -39,13 +39,13 @@ function Ringkasan({ d, onUbah }) {
     <>
       <dl className="mt-5 grid gap-3">
         {baris.map(([k, v]) => (
-          <div key={k} className="clay px-5 py-3" style={{ '--c': '#fff', '--r': '1.25rem' }}>
-            <dt className="text-sm font-bold opacity-70">{k}</dt>
+          <div key={k} className="nb px-5 py-3" style={{ '--c': '#fff', '--r': '1.25rem' }}>
+            <dt className="text-sm font-bold opacity-90">{k}</dt>
             <dd className="font-semibold break-words">{v}</dd>
           </div>
         ))}
       </dl>
-      <button onClick={onUbah} className="clay btn mt-5" style={{ '--c': 'var(--toska)' }}><Pencil className="size-5" />Ubah data</button>
+      <button onClick={onUbah} className="nb btn mt-5" style={{ '--c': 'var(--toska)' }}><Pencil className="size-5" />Ubah data</button>
     </>
   )
 }
@@ -75,12 +75,12 @@ export default function Dashboard() {
   if (galatMuat) {
     return (
       <main className="mx-auto max-w-2xl px-4 py-10">
-        <div className="clay p-8" style={{ '--c': '#fff', '--r': '2.5rem' }}>
+        <div className="nb p-8" style={{ '--c': '#fff', '--r': '2.5rem' }}>
           <h1 className="text-2xl font-bold">Data belum bisa dimuat</h1>
           <p className="mt-2" role="alert">{galatMuat}</p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <button onClick={() => window.location.reload()} className="clay btn" style={{ '--c': 'var(--biru)' }}>Coba lagi</button>
-            <button onClick={keluar} className="clay btn" style={{ '--c': '#fff' }}><LogOut className="size-5" />Keluar</button>
+            <button onClick={() => window.location.reload()} className="nb btn" style={{ '--c': 'var(--biru)' }}>Coba lagi</button>
+            <button onClick={keluar} className="nb btn" style={{ '--c': '#fff' }}><LogOut className="size-5" />Keluar</button>
           </div>
         </div>
       </main>
@@ -122,17 +122,17 @@ export default function Dashboard() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
-      <div className="clay p-6 sm:p-8" style={{ '--c': '#fff', '--r': '2.5rem' }}>
+      <div className="nb p-6 sm:p-8" style={{ '--c': '#fff', '--r': '2.5rem' }}>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h1 className="text-3xl font-bold">Profil UMKM</h1>
             <p className="mt-1 text-sm">Masuk sebagai {user.email}</p>
           </div>
-          <span className="clay px-4 py-2 text-sm font-extrabold" style={{ '--c': 'var(--matahari)', '--r': '999px' }}>{data?.status ?? 'Belum terdaftar'}</span>
+          <span className="nb px-4 py-2 text-sm font-extrabold" style={{ '--c': 'var(--matahari)', '--r': '999px' }}>{data?.status ?? 'Belum terdaftar'}</span>
         </div>
 
         {!user.emailVerified && (
-          <div className="clay mt-5 p-4" style={{ '--c': 'var(--matahari)', '--r': '1.5rem' }}>
+          <div className="nb mt-5 p-4" style={{ '--c': 'var(--matahari)', '--r': '1.5rem' }}>
             <p className="font-bold">Email belum dikonfirmasi.</p>
             <p className="text-sm">Klik tautan di email konfirmasi, lalu muat ulang halaman ini.</p>
             <button onClick={kirimUlang} className="mt-2 text-sm font-bold underline">Kirim ulang email</button>
@@ -160,7 +160,7 @@ export default function Dashboard() {
             <fieldset className="grid gap-3">
               <legend className="font-extrabold">Produk</legend>
               {f.produk.map((p, i) => (
-                <div key={i} className="clay grid gap-4 p-4" style={{ '--c': 'var(--langit)', '--r': '1.5rem' }}>
+                <div key={i} className="nb grid gap-4 p-4" style={{ '--c': 'var(--langit)', '--r': '1.5rem' }}>
                   <div className="grid gap-3 sm:grid-cols-[1fr_12rem_auto] sm:items-start">
                     <Isian label={f.produk.length > 1 ? `Nama produk ${i + 1}` : 'Nama produk'} error={err[`produk${i}nama`]}>
                       <input className="input" value={p.nama} onChange={(e) => ubahProduk(i, 'nama', e.target.value)} />
@@ -172,7 +172,7 @@ export default function Dashboard() {
                       </select>
                     </Isian>
                     {f.produk.length > 1 && (
-                      <button type="button" onClick={() => hapusProduk(i)} aria-label={`Hapus produk ${i + 1}`} className="clay grid size-10 place-items-center sm:mt-8" style={{ '--c': '#fff', '--r': '999px' }}><X className="size-5" /></button>
+                      <button type="button" onClick={() => hapusProduk(i)} aria-label={`Hapus produk ${i + 1}`} className="nb grid size-10 place-items-center sm:mt-8" style={{ '--c': '#fff', '--r': '999px' }}><X className="size-5" /></button>
                     )}
                   </div>
                   <div className="grid gap-2">
@@ -191,13 +191,13 @@ export default function Dashboard() {
                 </div>
               ))}
               {f.produk.length < maksProduk && (
-                <button type="button" onClick={tambahProduk} className="clay btn w-fit" style={{ '--c': '#fff' }}><Plus className="size-5" />Tambah produk</button>
+                <button type="button" onClick={tambahProduk} className="nb btn w-fit" style={{ '--c': '#fff' }}><Plus className="size-5" />Tambah produk</button>
               )}
             </fieldset>
 
             <fieldset className="grid gap-3">
               <legend className="font-extrabold">Legalitas usaha</legend>
-              <p className="text-sm opacity-70">NIB berlaku untuk seluruh usaha. Nomornya boleh diisi atau dikosongkan. PIRT, BPOM, dan Halal diisi pada tiap produk di atas.</p>
+              <p className="text-sm opacity-90">NIB berlaku untuk seluruh usaha. Nomornya boleh diisi atau dikosongkan. PIRT, BPOM, dan Halal diisi pada tiap produk di atas.</p>
               {legalitasUsaha.map((l) => (
                 <div key={l.kode} className="grid gap-2 sm:grid-cols-[11rem_1fr] sm:items-center">
                   <label className="flex items-center gap-3 font-semibold">
@@ -224,20 +224,20 @@ export default function Dashboard() {
 
             <fieldset className="grid gap-3">
               <legend className="font-extrabold">Media sosial dan toko online (opsional)</legend>
-              <p className="text-sm opacity-70">Klik platform untuk menambahkannya. Boleh berupa tautan atau nama akun.</p>
+              <p className="text-sm opacity-90">Klik platform untuk menambahkannya. Boleh berupa tautan atau nama akun.</p>
               {Object.keys(f.sosmed).map((kode) => {
                 const pl = platformSosmed.find((x) => x.kode === kode)
                 return (
                   <div key={kode} className="grid grid-cols-[6.5rem_1fr_auto] items-center gap-2">
                     <span className="font-extrabold">{pl?.nama ?? kode}</span>
                     <input className="input" aria-label={pl?.nama} placeholder={pl?.contoh} value={f.sosmed[kode]} onChange={(e) => setF({ ...f, sosmed: { ...f.sosmed, [kode]: e.target.value } })} />
-                    <button type="button" onClick={() => hapusSosmed(kode)} aria-label={`Hapus ${pl?.nama}`} className="clay grid size-10 place-items-center" style={{ '--c': '#fff', '--r': '999px' }}><X className="size-5" /></button>
+                    <button type="button" onClick={() => hapusSosmed(kode)} aria-label={`Hapus ${pl?.nama}`} className="nb grid size-10 place-items-center" style={{ '--c': '#fff', '--r': '999px' }}><X className="size-5" /></button>
                   </div>
                 )
               })}
               <div className="flex flex-wrap gap-2">
                 {platformSosmed.filter((x) => !(x.kode in f.sosmed)).map((x) => (
-                  <button key={x.kode} type="button" onClick={() => setF({ ...f, sosmed: { ...f.sosmed, [x.kode]: '' } })} className="clay btn py-2 text-sm" style={{ '--c': '#fff' }}><Plus className="size-4" />{x.nama}</button>
+                  <button key={x.kode} type="button" onClick={() => setF({ ...f, sosmed: { ...f.sosmed, [x.kode]: '' } })} className="nb btn py-2 text-sm" style={{ '--c': '#fff' }}><Plus className="size-4" />{x.nama}</button>
                 ))}
               </div>
             </fieldset>
@@ -251,20 +251,20 @@ export default function Dashboard() {
               {err.setuju && <span role="alert" className="text-sm font-bold" style={warnaError}>{err.setuju}</span>}
             </div>
 
-            {Object.keys(err).length > 0 && <p role="alert" className="clay px-4 py-3 text-sm font-bold" style={{ '--c': 'var(--jingga)', '--r': '1.25rem' }}>Ada isian yang perlu diperbaiki. Periksa tulisan di bawah kolom yang bermasalah.</p>}
+            {Object.keys(err).length > 0 && <p role="alert" className="nb px-4 py-3 text-sm font-bold" style={{ '--c': 'var(--jingga)', '--r': '1.25rem' }}>Ada isian yang perlu diperbaiki. Periksa tulisan di bawah kolom yang bermasalah.</p>}
 
-            {galatSimpan && <p role="alert" className="clay px-4 py-3 text-sm font-bold" style={{ '--c': 'var(--jingga)', '--r': '1.25rem' }}>Gagal menyimpan: {galatSimpan}</p>}
+            {galatSimpan && <p role="alert" className="nb px-4 py-3 text-sm font-bold" style={{ '--c': 'var(--jingga)', '--r': '1.25rem' }}>Gagal menyimpan: {galatSimpan}</p>}
 
             <div className="flex flex-wrap gap-3">
-              <button type="submit" disabled={sibuk} className="clay btn disabled:opacity-60" style={{ '--c': 'var(--biru)' }}>{sibuk ? 'Menyimpan...' : 'Simpan data'}</button>
-              {data && <button type="button" onClick={() => setEdit(false)} className="clay btn" style={{ '--c': '#fff' }}>Batal</button>}
+              <button type="submit" disabled={sibuk} className="nb btn disabled:opacity-60" style={{ '--c': 'var(--biru)' }}>{sibuk ? 'Menyimpan...' : 'Simpan data'}</button>
+              {data && <button type="button" onClick={() => setEdit(false)} className="nb btn" style={{ '--c': '#fff' }}>Batal</button>}
             </div>
           </form>
         )}
 
-        <div className="mt-8 flex flex-wrap gap-3 border-t pt-5" style={{ borderColor: 'rgb(38 51 77 / .12)' }}>
-          <Link to="/" className="clay btn" style={{ '--c': '#fff' }}>Ke beranda</Link>
-          <button onClick={keluar} className="clay btn" style={{ '--c': '#fff' }}><LogOut className="size-5" />Keluar</button>
+        <div className="mt-8 flex flex-wrap gap-3 border-t-[3px] pt-5" style={{ borderColor: '#111111' }}>
+          <Link to="/" className="nb btn" style={{ '--c': '#fff' }}>Ke beranda</Link>
+          <button onClick={keluar} className="nb btn" style={{ '--c': '#fff' }}><LogOut className="size-5" />Keluar</button>
         </div>
       </div>
       <TombolWaMengapung />

@@ -1,54 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Lexend:wght@400;600;800&display=swap');
 @import "tailwindcss";
 
 :root {
-  --langit: #eaf1fb; --tinta: #26334d;
-  --biru: #4aa8e8; --toska: #4fc3c0; --hijau: #8fd16a; --jingga: #f5935a; --matahari: #ffd76a;
+  --langit: #fff7e6; --tinta: #111111;
+  --biru: #5ab0ff; --toska: #3ddbc4; --hijau: #8be04e; --jingga: #ff9f43; --matahari: #ffd23f;
 }
-html { scroll-behavior: smooth; }
+/* Dasar yang ramah semua usia: huruf besar, kontras tinggi, jarak baris lega */
+html { scroll-behavior: smooth; font-size: 18px; }
 body {
   background: var(--langit) url('/images/bg-pattern.svg');
   color: var(--tinta);
-  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Lexend', 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.65;
 }
-h1, h2, h3, .judul { font-family: 'Fredoka', 'Nunito', system-ui, sans-serif; }
+h1, h2, h3, .judul { font-family: 'Bricolage Grotesque', 'Lexend', system-ui, sans-serif; line-height: 1.12; letter-spacing: -0.01em; }
+:focus-visible { outline: 4px solid var(--tinta); outline-offset: 3px; }
 
-/* Claymorphism: warna lembut, sudut besar, bayangan luar + cahaya dalam */
-.clay {
+/* Neo-Brutalism: warna datar, garis tebal hitam, bayangan keras tanpa blur */
+.nb {
   background: var(--c, #fff);
-  border-radius: var(--r, 2rem);
-  box-shadow:
-    10px 14px 28px rgb(38 51 77 / .16),
-    inset -8px -8px 16px rgb(38 51 77 / .10),
-    inset 8px 8px 16px rgb(255 255 255 / .75);
-  transition: transform .2s ease, box-shadow .2s ease;
+  border: 3px solid var(--tinta);
+  border-radius: min(var(--r, 14px), 20px);
+  box-shadow: 6px 6px 0 var(--sh, var(--tinta));
+  transition: transform .12s ease, box-shadow .12s ease;
 }
-.clay-hover:hover { transform: translateY(-5px); }
-.clay-hover:active, .btn:active {
-  transform: translateY(2px) scale(.98);
-  box-shadow: 4px 6px 12px rgb(38 51 77 / .16), inset -4px -4px 8px rgb(38 51 77 / .10), inset 4px 4px 8px rgb(255 255 255 / .75);
-}
-.btn { --r: 999px; display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1.5rem; font-weight: 800; cursor: pointer; }
-:focus-visible { outline: 3px solid var(--tinta); outline-offset: 3px; }
+.nb-hover:hover, .nb.btn:hover, .nb-aktif { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--sh, var(--tinta)); }
+.nb-hover:active, .nb.btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--sh, var(--tinta)); }
+.btn { --r: 12px; display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.3rem; min-height: 3rem; font-weight: 800; cursor: pointer; }
+.btn:disabled { cursor: not-allowed; }
+.tanda { background: linear-gradient(transparent 58%, var(--matahari) 58%); padding: 0 .15em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
-.screen { position: relative; min-height: 100svh; overflow: hidden; display: flex; align-items: center; padding: 6.5rem 1.25rem 4rem; }
+.screen { position: relative; min-height: 100svh; overflow: hidden; display: flex; align-items: center; padding: 6.5rem 1.25rem 4rem; border-bottom: 4px solid var(--tinta); }
 /* Parallax: --py diatur per section lewat JS, --speed per lapisan */
 .parallax { will-change: transform; transform: translate3d(0, calc(var(--py, 0) * var(--speed, .1) * -1px), 0); }
 .float-y { animation: float 5s ease-in-out infinite; }
-.pop { animation: pop .3s ease both; }
-@keyframes float { 50% { transform: translateY(-14px); } }
-@keyframes pop { from { opacity: 0; transform: scale(.96); } }
+.pop { animation: pop .25s ease both; }
+@keyframes float { 50% { transform: translateY(-8px); } }
+@keyframes pop { from { opacity: 0; transform: translateY(8px); } }
+
+/* Batang kemajuan membaca di tepi atas */
+.progres { position: fixed; inset: 0 0 auto 0; height: 12px; z-index: 60; background: #fff; border-bottom: 3px solid var(--tinta); }
+.progres > i { display: block; height: 100%; background: var(--biru); transform-origin: left; transform: scaleX(var(--p, 0)); border-right: 3px solid var(--tinta); }
+
 @media (prefers-reduced-motion: reduce) {
   .parallax { transform: none; }
   .float-y, .pop { animation: none; }
   html { scroll-behavior: auto; }
 }
 
-/* Kolom isian bergaya clay (cekung) */
+/* Kolom isian */
 @layer components {
-.input {
-  width: 100%; padding: .85rem 1.1rem; border: 0; border-radius: 1.25rem; background: #fff; font-weight: 600;
-  box-shadow: inset 4px 4px 10px rgb(38 51 77 / .14), inset -4px -4px 10px rgb(255 255 255 / .9);
-}
-.input::placeholder { opacity: .5; }
+  .input {
+    width: 100%; padding: .8rem 1rem; background: #fff; font-weight: 600; color: var(--tinta);
+    border: 3px solid var(--tinta); border-radius: 12px; box-shadow: 4px 4px 0 var(--tinta);
+  }
+  .input::placeholder { color: #666; opacity: 1; }
+  .input:focus { background: #fffbe0; }
 }

@@ -93,11 +93,11 @@ export default function Masuk() {
         <Link to="/" aria-label="Kembali ke beranda">
           <img src="/images/logo.svg" alt="Rumah Kemasan SINTESA Lebak" className="mx-auto mb-6 h-14 w-auto" />
         </Link>
-        <div className="clay p-6 sm:p-8" style={{ '--c': '#fff', '--r': '2.5rem' }}>
-          <div role="tablist" className="clay grid grid-cols-2 gap-2 p-1.5" style={{ '--c': 'var(--langit)', '--r': '999px' }}>
+        <div className="nb p-6 sm:p-8" style={{ '--c': '#fff', '--r': '2.5rem' }}>
+          <div role="tablist" className="nb grid grid-cols-2 gap-2 p-1.5" style={{ '--c': 'var(--langit)', '--r': '999px' }}>
             {[['masuk', 'Masuk'], ['daftar', 'Daftar']].map(([t, nama]) => (
               <button key={t} type="button" role="tab" aria-selected={tab === t} onClick={() => pilihTab(t)}
-                className={`btn justify-center ${tab === t ? 'clay' : ''}`} style={{ '--c': 'var(--biru)' }}>{nama}</button>
+                className={`btn justify-center ${tab === t ? 'nb' : ''}`} style={{ '--c': 'var(--biru)' }}>{nama}</button>
             ))}
           </div>
 
@@ -119,10 +119,10 @@ export default function Masuk() {
             )}
 
             {pesan && (
-              <p role="alert" className="clay px-4 py-3 text-sm font-bold" style={{ '--c': pesan.jenis === 'ok' ? 'var(--hijau)' : 'var(--jingga)', '--r': '1.25rem' }}>{pesan.teks}</p>
+              <p role="alert" className="nb px-4 py-3 text-sm font-bold" style={{ '--c': pesan.jenis === 'ok' ? 'var(--hijau)' : 'var(--jingga)', '--r': '1.25rem' }}>{pesan.teks}</p>
             )}
 
-            <button type="submit" disabled={sibuk} className="clay btn w-full justify-center disabled:opacity-60" style={{ '--c': 'var(--biru)' }}>
+            <button type="submit" disabled={sibuk} className="nb btn w-full justify-center disabled:opacity-60" style={{ '--c': 'var(--biru)' }}>
               {sibuk ? 'Memproses...' : tab === 'masuk' ? 'Masuk' : 'Daftar'}
             </button>
             {tab === 'masuk' && (
@@ -131,7 +131,7 @@ export default function Masuk() {
           </form>
 
           <p className="my-5 text-center text-sm font-bold opacity-60">atau</p>
-          <button type="button" onClick={google} disabled={sibuk} className="clay btn w-full justify-center disabled:opacity-60" style={{ '--c': '#fff' }}>
+          <button type="button" onClick={google} disabled={sibuk} className="nb btn w-full justify-center disabled:opacity-60" style={{ '--c': '#fff' }}>
             <GoogleG />Lanjutkan dengan Google
           </button>
         </div>
