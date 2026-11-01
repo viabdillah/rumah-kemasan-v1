@@ -246,7 +246,7 @@ export default function Dashboard() {
             <div className="grid gap-1.5">
               <label className="flex items-start gap-3 font-semibold">
                 <input type="checkbox" className="mt-1 size-5 shrink-0 accent-sky-500" checked={f.setuju} onChange={(e) => setF({ ...f, setuju: e.target.checked })} />
-                Saya setuju data ini dipakai Rumah Kemasan SINTESA Lebak untuk layanan kemasan dan dihubungi lewat WhatsApp.
+                <span>Saya setuju data ini dipakai Rumah Kemasan SINTESA Lebak untuk layanan kemasan dan dihubungi lewat WhatsApp. <Link to="/privasi" target="_blank" rel="noopener" className="font-extrabold underline">Baca kebijakan privasi</Link></span>
               </label>
               {err.setuju && <span role="alert" className="text-sm font-bold" style={warnaError}>{err.setuju}</span>}
             </div>

@@ -135,7 +135,7 @@ export default function Masuk() {
             <GoogleG />Lanjutkan dengan Google
           </button>
         </div>
-        <p className="mt-6 text-center text-sm"><Link to="/" className="font-bold underline">Kembali ke beranda</Link></p>
+        <p className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm"><Link to="/" className="font-bold underline">Kembali ke beranda</Link><Link to="/privasi" className="font-bold underline">Kebijakan privasi</Link></p>
       </div>
     </main>
   )

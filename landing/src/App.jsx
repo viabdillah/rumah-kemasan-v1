@@ -4,6 +4,7 @@ import { ProfilProvider } from './context/ProfilContext'
 import Landing from './pages/Landing'
 import Masuk from './pages/Masuk'
 import Dashboard from './pages/Dashboard'
+import Privasi from './pages/Privasi'
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
             <Route path="/masuk" element={<Masuk />} />
             <Route path="/daftar" element={<Navigate to="/masuk?tab=daftar" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/privasi" element={<Privasi />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ProfilProvider>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { ArrowUp } from 'lucide-react'
 import { mitra } from '../data/content'
 import { LogoDraf } from './LogoDraf'
@@ -20,6 +21,7 @@ export default function Footer() {
         <div className="mt-10 flex flex-wrap items-center justify-between gap-5 border-t-[3px] border-white pt-6">
           <p className="max-w-md">© 2026 Rumah Kemasan SINTESA Lebak. Pusat Layanan Kemasan Kabupaten Lebak.</p>
           <div className="flex flex-wrap gap-4">
+            <Link to="/privasi" className="nb btn" style={{ '--c': '#fff', color: 'var(--tinta)' }}>Kebijakan privasi</Link>
             <a href="#beranda" className="nb btn" style={{ '--c': 'var(--matahari)', color: 'var(--tinta)' }}><ArrowUp className="size-5" />Ke atas</a>
           </div>
         </div>
