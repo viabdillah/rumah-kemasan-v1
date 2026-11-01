@@ -16,11 +16,24 @@ app.use('*', (c, next) =>
   })(c, next),
 )
 
+// Header keamanan: data pribadi tidak boleh disimpan di cache browser atau perantara.
+app.use('*', async (c, next) => {
+  await next()
+  c.header('X-Content-Type-Options', 'nosniff')
+  c.header('Referrer-Policy', 'no-referrer')
+  c.header('Cache-Control', 'no-store')
+})
+
+// Pembatas permintaan. Jika binding tidak ada, jangan memblokir apa pun.
+const boleh = async (pembatas, kunci) => (pembatas ? (await pembatas.limit({ key: kunci })).success : true)
+const tolak = (c) => c.json({ galat: 'Terlalu banyak permintaan. Tunggu sebentar lalu coba lagi.', kode: 'terlalu_banyak' }, 429, { 'Retry-After': '60' })
+
 app.get('/', (c) => c.text('API Rumah Kemasan aktif'))
 
-// Semua rute /umkm wajib membawa token login Firebase yang sah.
+// Semua rute /umkm: batasi per alamat IP, lalu wajib membawa token login Firebase yang sah.
 app.use('/umkm', async (c, next) => {
   if (c.req.method === 'OPTIONS') return next()
+  if (!(await boleh(c.env.BATAS_IP, c.req.header('CF-Connecting-IP') || 'tanpa-ip'))) return tolak(c)
   const token = (c.req.header('Authorization') || '').replace(/^Bearer /, '')
   if (!token) return c.json({ galat: 'Perlu login.' }, 401)
   try {
@@ -34,12 +47,18 @@ app.use('/umkm', async (c, next) => {
 // Pengguna hanya bisa membaca dan mengubah data miliknya sendiri (uid dari token, bukan dari permintaan).
 app.get('/umkm', async (c) => {
   const { uid } = c.get('pengguna')
+  if (!(await boleh(c.env.BATAS_BACA, uid))) return tolak(c)
   const hasil = await ambilUmkm(c.env, uid)
   return c.json({ data: hasil?.data ?? null })
 })
 
 app.put('/umkm', async (c) => {
-  const { uid, email } = c.get('pengguna')
+  const { uid, email, emailVerified } = c.get('pengguna')
+  if (!(await boleh(c.env.BATAS_TULIS, uid))) return tolak(c)
+  // Menyimpan data wajib dari akun dengan email yang sudah dikonfirmasi (login Google otomatis lolos).
+  if (!emailVerified) {
+    return c.json({ galat: 'Email Anda belum dikonfirmasi. Klik tautan di email konfirmasi, lalu coba simpan lagi.', kode: 'email_belum_dikonfirmasi' }, 403)
+  }
   let body
   try { body = await c.req.json() } catch { return c.json({ galat: 'Data tidak terbaca.' }, 400) }
   const bersih = bersihkan(body)

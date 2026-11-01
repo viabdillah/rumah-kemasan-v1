@@ -134,7 +134,7 @@ export default function Dashboard() {
         {!user.emailVerified && (
           <div className="nb mt-5 p-4" style={{ '--c': 'var(--matahari)', '--r': '1.5rem' }}>
             <p className="font-bold">Email belum dikonfirmasi.</p>
-            <p className="text-sm">Klik tautan di email konfirmasi, lalu muat ulang halaman ini.</p>
+            <p className="text-sm">Konfirmasi email diperlukan sebelum data bisa disimpan. Klik tautan di email konfirmasi, lalu kembali ke sini dan tekan Simpan data.</p>
             <button onClick={kirimUlang} className="mt-2 text-sm font-bold underline">Kirim ulang email</button>
             {info && <p className="mt-2 text-sm">{info}</p>}
           </div>

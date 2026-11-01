@@ -92,6 +92,13 @@ async function panggil(metode, body) {
 export const muat = async () => normalisasi(await panggil('GET'))
 
 export async function simpan(d) {
+  // Status konfirmasi email bisa berubah sejak halaman dibuka: ambil yang terbaru lalu segarkan token login.
+  const u = auth.currentUser
+  if (u && !u.emailVerified) {
+    await u.reload()
+    if (!u.emailVerified) throw new Error('Email Anda belum dikonfirmasi. Buka email konfirmasi, klik tautannya, lalu tekan Simpan data lagi.')
+    await u.getIdToken(true)
+  }
   const kirim = {
     ...d,
     whatsapp: normalisasiWa(d.whatsapp),

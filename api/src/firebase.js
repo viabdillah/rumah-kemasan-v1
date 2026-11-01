@@ -11,5 +11,5 @@ export async function verifikasiToken(token, projectId) {
     algorithms: ['RS256'],
   })
   if (!payload.sub) throw new Error('Token tanpa uid')
-  return { uid: payload.sub, email: payload.email ?? '' }
+  return { uid: payload.sub, email: payload.email ?? '', emailVerified: payload.email_verified === true }
 }
